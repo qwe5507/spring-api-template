@@ -10,8 +10,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")
-//                .allowedOrigins("*")
-                .allowedOrigins("http://localhost:8082")
+                .allowedOrigins("*")
+                .maxAge(3600) // pre-flight 요청 캐싱 시간, default 1800초
                 .allowedMethods(
                         HttpMethod.GET.name(),
                         HttpMethod.POST.name(),
