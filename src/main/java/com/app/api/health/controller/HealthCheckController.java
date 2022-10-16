@@ -19,12 +19,16 @@ public class HealthCheckController {
 
     @GetMapping("/health")
     public ResponseEntity<HealthCheckResponseDto> healthCheck() {
+
+
+
         HealthCheckResponseDto healthCheckResponseDto = HealthCheckResponseDto.builder()
                 .health("ok")
                 .activeProfiles(Arrays.asList(environment.getActiveProfiles()))
                 .build();
 
-        return ResponseEntity.ok(healthCheckResponseDto);
+//        return ResponseEntity.ok(healthCheckResponseDto);
+        return ResponseEntity.internalServerError().body(healthCheckResponseDto);
     }
 
 }

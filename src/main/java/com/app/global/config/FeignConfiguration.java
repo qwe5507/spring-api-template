@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @EnableFeignClients(basePackages = "com.app") // todo 패키지명 수정
 @Import(FeignClientsConfiguration.class)
-public class FeignConfigration {
+public class FeignConfiguration {
     @Bean
     public Logger.Level feignLoggerLevel() {
         return Logger.Level.FULL;
