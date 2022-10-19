@@ -27,8 +27,8 @@ public class HealthCheckController {
                 .activeProfiles(Arrays.asList(environment.getActiveProfiles()))
                 .build();
 
-//        return ResponseEntity.ok(healthCheckResponseDto);
-        return ResponseEntity.internalServerError().body(healthCheckResponseDto);
+        return ResponseEntity.ok(healthCheckResponseDto);
+//        return ResponseEntity.internalServerError().body(healthCheckResponseDto);
     }
 
 }
