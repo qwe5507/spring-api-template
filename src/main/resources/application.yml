@@ -44,3 +44,7 @@ kakao:
     id: 51f1c3e3d11503a5afaf346e5a53ec59
     secret: EctA4J2DcLlDfS6BOAUMAH6IznnqE5cR
 
+token:
+  secret: and0LXRva2VuLXNlY3JldA== # 임의의 문자열
+  access-token-expiration-time: 900000 # 15분 1000(ms) x 60(s) x 15(m)
+  refresh-token-expiration-time: 1209600000 # 2주 1000(ms) x 60 (s) x 60(m) x 24(h) x 14(d)
