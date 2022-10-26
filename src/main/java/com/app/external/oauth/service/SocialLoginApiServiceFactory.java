@@ -1,4 +1,4 @@
-package com.app.external.oauth.kakao.service;
+package com.app.external.oauth.service;
 
 import com.app.domain.member.constant.MemberType;
 import com.app.external.oauth.service.SocialLoginApiService;
