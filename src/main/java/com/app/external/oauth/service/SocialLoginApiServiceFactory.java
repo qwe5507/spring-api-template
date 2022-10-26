@@ -15,7 +15,7 @@ public class SocialLoginApiServiceFactory {
         this.socialLoginApiServices = socialLoginApiServices;
     }
 
-    public static SocialLoginApiService getSocialLoginApiService(MemberType memberType) {
+    public static SocialLoginApiService  getSocialLoginApiService(MemberType memberType) {
         String socialLoginApiServiceBeanName = "";
 
         if (MemberType.KAKAO.equals(memberType)) {
