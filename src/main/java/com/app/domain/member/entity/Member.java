@@ -1,4 +1,4 @@
-package com.app.domain.member;
+package com.app.domain.member.entity;
 
 import com.app.domain.common.BaseEntity;
 import com.app.domain.member.constant.MemberType;

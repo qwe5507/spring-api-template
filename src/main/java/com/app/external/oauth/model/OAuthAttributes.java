@@ -1,6 +1,6 @@
 package com.app.external.oauth.model;
 
-import com.app.domain.member.Member;
+import com.app.domain.member.entity.Member;
 import com.app.domain.member.constant.MemberType;
 import com.app.domain.member.constant.Role;
 import lombok.Builder;
