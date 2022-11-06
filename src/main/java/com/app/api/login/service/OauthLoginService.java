@@ -9,6 +9,8 @@ import com.app.domain.member.service.MemberService;
 import com.app.external.oauth.model.OAuthAttributes;
 import com.app.external.oauth.service.SocialLoginApiService;
 import com.app.external.oauth.service.SocialLoginApiServiceFactory;
+import com.app.global.jwt.dto.JwtTokenDto;
+import com.app.global.jwt.service.TokenManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,7 @@ import java.util.Optional;
 public class OauthLoginService {
 
     private final MemberService memberService;
+    private final TokenManager tokenManager;
 
     public OauthLoginDto.Response oauthLogin(String accessToken, MemberType memberType) {
         //어떤 소셜 로그인 API를 할지, member Type으로 구현체를 받는다.
@@ -31,14 +34,24 @@ public class OauthLoginService {
         OAuthAttributes userInfo = socialLoginApiService.getUserInfo(accessToken);
         log.info("userInfo : {}", userInfo);
 
+        JwtTokenDto jwtTokenDto;
         Optional<Member> optionalMember = memberService.findMemberByEmail(userInfo.getEmail());
-        if (optionalMember.isEmpty()) {// 신규 회원
+        if (optionalMember.isEmpty()) {// 신규 회원일 경우
             Member oauthMember = userInfo.toMemberEntity(memberType, Role.ADMIN);
-            memberService.registerMember(oauthMember);
-        } else { // 기존 회원일 경우
+            oauthMember = memberService.registerMember(oauthMember);
 
+            //토큰 생성
+            jwtTokenDto = tokenManager.createJwtTokenDto(oauthMember.getMemberId(), oauthMember.getRole());
+            oauthMember.updateRefreshToken(jwtTokenDto);
+
+        } else { // 기존 회원일 경우
+            Member oauthMember = optionalMember.get();
+
+            //토큰 생성
+            jwtTokenDto = tokenManager.createJwtTokenDto(oauthMember.getMemberId(), oauthMember.getRole());
+            oauthMember.updateRefreshToken(jwtTokenDto);
         }
 
-        return OauthLoginDto.Response.builder().build();
+        return OauthLoginDto.Response.of(jwtTokenDto);
     }
 }

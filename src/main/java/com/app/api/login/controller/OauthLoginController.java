@@ -26,11 +26,10 @@ public class OauthLoginController {
         oauthValidator.validateAuthorization(authorizationHeader); // Authorization 헤더 검증
         oauthValidator.validateMemberType(oauthLoginRequestDto.getMemberType()); // Member Type 검증
 
-
         String accessToken = authorizationHeader.split(" ")[1];
 
-        oauthLoginService.oauthLogin(accessToken, MemberType.from(oauthLoginRequestDto.getMemberType()));
+        OauthLoginDto.Response jwtTokenResponseDto = oauthLoginService.oauthLogin(accessToken, MemberType.from(oauthLoginRequestDto.getMemberType()));
 
-        return ResponseEntity.ok(OauthLoginDto.Response.builder().build());
+        return ResponseEntity.ok(jwtTokenResponseDto);
     }
 }

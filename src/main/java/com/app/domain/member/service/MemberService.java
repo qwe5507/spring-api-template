@@ -18,12 +18,14 @@ public class MemberService {
 
     //회원가입
     public Member registerMember(Member member) {
+        validateDuplicateMember(member);
         return memberRepository.save(member);
     }
 
     private void validateDuplicateMember(Member member) {
         //Email로 중복 체크
         Optional<Member> optionalMember = memberRepository.findByEmail(member.getEmail());
+
         if (optionalMember.isPresent()) {
             throw new BusinessException(ErrorCode.ALREADY_REGISTERED_MEMBER);
         }
