@@ -62,4 +62,8 @@ public class Member extends BaseEntity {
         this.refreshToken = jwtTokenDto.getRefreshToken();
         this.tokenExpirationTime = DateTimeUtils.convertToLocalDateTime(jwtTokenDto.getRefreshTokenExpireTime());
     }
+
+    public void expireRefreshToken(LocalDateTime now) {
+        this.tokenExpirationTime = now; // refresh 토큰의 만료시간을 현재 시간으로 변경하여 만료
+    }
 }
