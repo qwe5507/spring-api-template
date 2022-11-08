@@ -91,8 +91,7 @@ public class TokenManager {
         }
     }
 
-    public Claims
-    getTokenClaims(String token) {
+    public Claims getTokenClaims(String token) {
         Claims claims;
         try {
             claims = Jwts.parser().setSigningKey(tokenSecret.getBytes(StandardCharsets.UTF_8))
