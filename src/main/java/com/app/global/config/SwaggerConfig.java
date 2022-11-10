@@ -27,11 +27,11 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("com.app.api")) // API 패키지 경로 todo 패키지 경로 수정
                 .paths(PathSelectors.ant("/api/**")) // path 조건에 따라서 API 문서화 todo API 경로 수정
                 .build()
-                .apiInfo(apiInfo())                       // API 문서에 대한 정보 추가
-                .useDefaultResponseMessages(false)        // swagger에서 제공하는 기본 응답 코드 설명 제거
-                .securityContexts(Arrays.asList(securityContext()))
-                .securitySchemes(Arrays.asList(apiKey()))
-                .ignoredParameterTypes(MemberInfo.class)  // MemberInfo는 ArgumentResolver에서 값을 채우기 때문에 Ignore
+                .apiInfo(apiInfo()) // API 문서에 대한 정보 추가
+                .useDefaultResponseMessages(false) // swagger에서 제공하는 기본 응답 코드 설명 제거
+                .securityContexts(Arrays.asList(securityContext())) // Authorization JWT 설정
+                .securitySchemes(Arrays.asList(apiKey())) // Authorization JWT 설정
+                .ignoredParameterTypes(MemberInfo.class) // MemberInfo는 ArgumentResolver에서 값을 채우기 때문에 Ignore
                 ;
     }
 
