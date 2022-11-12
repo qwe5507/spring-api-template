@@ -3,12 +3,15 @@ package com.app.global.config.web;
 import com.app.global.interceptor.AdminAuthorizationInterceptor;
 import com.app.global.interceptor.AuthenticationInterceptor;
 import com.app.global.resolver.memberinfo.MemberInfoArgumentResolver;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.navercorp.lucy.security.xss.servletfilter.XssEscapeServletFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -23,6 +26,7 @@ public class WebConfig implements WebMvcConfigurer {
     private final AuthenticationInterceptor authenticationInterceptor;
     private final MemberInfoArgumentResolver memberInfoArgumentResolver;
     private final AdminAuthorizationInterceptor adminAuthorizationInterceptor;
+    private final ObjectMapper objectMapper;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -66,5 +70,17 @@ public class WebConfig implements WebMvcConfigurer {
         filterRegistration.setOrder(1);
         filterRegistration.addUrlPatterns("/*"); //모든 경로에 적용
         return filterRegistration;
+    }
+
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        converters.add(jsonEscapeConvert());
+    }
+
+    @Bean
+    public MappingJackson2HttpMessageConverter jsonEscapeConvert() {
+        ObjectMapper copy = this.objectMapper.copy();
+        copy.getFactory().setCharacterEscapes(new HtmlCharacterEscapes());
+        return new MappingJackson2HttpMessageConverter(copy);
     }
 }
